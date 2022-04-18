@@ -20,12 +20,13 @@ import java.util.stream.Collectors;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CustomerService extends ClientService{
+public class CustomerService extends ClientService {
     private int customerId;
 
     /**
      * constructor for the service
-     * @param email - customer email.
+     *
+     * @param email    - customer email.
      * @param password - customer password.
      */
     public CustomerService(String email, String password) {
@@ -34,9 +35,10 @@ public class CustomerService extends ClientService{
 
     /**
      * purchase coupon method.
+     *
      * @param coupon - the coupon we want to purchase.
      * @throws PurchaseException - will throw exception if the customer already purchased the coupon before,
-     * if the coupon is out of stock or if the coupon is expired.
+     *                           if the coupon is out of stock or if the coupon is expired.
      */
     public void purchaseCoupon(Coupon coupon) throws PurchaseException {
         if (couponRepo.checkPurchase(this.customerId, coupon.getId()) > 0) {
@@ -57,6 +59,7 @@ public class CustomerService extends ClientService{
 
     /**
      * get customer coupons list
+     *
      * @return - list with customer coupons.
      */
     public List<Coupon> getCustomerCoupon() {
@@ -65,6 +68,7 @@ public class CustomerService extends ClientService{
 
     /**
      * get customer coupon from specific category
+     *
      * @param category - the category we want to find coupons of
      * @return - filtered list of customer coupons that matches the asked category.
      */
@@ -77,6 +81,7 @@ public class CustomerService extends ClientService{
 
     /**
      * get customer coupons up to specific price.
+     *
      * @param maxPrice - the max price of coupons that we asked to see.
      * @return - filtered list of customer coupons up to the specific asked max price.
      */
@@ -88,6 +93,7 @@ public class CustomerService extends ClientService{
 
     /**
      * get customer details.
+     *
      * @return - customer instance of the current customer.
      */
     public Customer getCustomerDetails() {
@@ -96,13 +102,18 @@ public class CustomerService extends ClientService{
 
     /**
      * login method.
-     * @param email - customer email.
+     *
+     * @param email    - customer email.
      * @param password - customer password.
      * @return - true or false.
      */
     @Override
-    public boolean login(String email, String password){
-       return customerRepo.existsCustomerByEmailAndPassword(email, password);
+    public boolean login(String email, String password) {
+        if (customerRepo.existsCustomerByEmailAndPassword(email, password)) {
+            this.customerId = customerRepo.findCustomerByEmailAndPassword(email, password).getId();
+            return true;
+        }
+        return false;
     }
 
     @Override

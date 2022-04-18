@@ -17,15 +17,12 @@ public class LoginManager {
         ClientService clientService = null;
 
         if (userType.equals(UserType.ADMIN) && adminService.login(email, password)) {
-            return clientService = new AdminService();
-        }
-        else if (companyService.login(email, password) && userType.equals(UserType.COMPANY)) {
-            return clientService = new CompanyService(email, password);
-        }
-        else if (customerService.login(email, password) && userType.equals(UserType.CUSTOMER)) {
-            return clientService = new CustomerService(email, password);
-        }
-        else {
+            return clientService = adminService;
+        } else if (companyService.login(email, password) && userType.equals(UserType.COMPANY)) {
+            return clientService = companyService;
+        } else if (customerService.login(email, password) && userType.equals(UserType.CUSTOMER)) {
+            return clientService = customerService;
+        } else {
             throw new LoginException("Email or Password incorrect, or user doesn't exist.");
         }
     }

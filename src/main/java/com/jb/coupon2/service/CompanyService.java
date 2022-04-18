@@ -4,13 +4,13 @@ import com.jb.coupon2.beans.Category;
 import com.jb.coupon2.beans.Company;
 import com.jb.coupon2.beans.Coupon;
 import com.jb.coupon2.exception.CompanyServiceException;
-import com.jb.coupon2.exception.LoginException;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,7 +28,7 @@ public class CompanyService extends ClientService {
      *                 will update the companyId instance after the login happens.
      */
     public CompanyService(String email, String password) {
-        this.companyId = companyRepo.findCompanyByEmailAndPassword(email, password).getId();
+      this.companyId = companyRepo.findCompanyByEmailAndPassword(email, password).getId();
     }
 
     /**
@@ -57,9 +57,10 @@ public class CompanyService extends ClientService {
 
     /**
      * update coupon method.
+     *
      * @param coupon - updated coupon instance.
      * @throws CompanyServiceException - if coupon wasn't found or there was an attempt to change the company id or
-     * the general id will throw exception to inform the user.
+     *                                 the general id will throw exception to inform the user.
      */
     public void updateCoupon(Coupon coupon) throws CompanyServiceException {
         if (couponRepo.findById(companyId).isEmpty()) {
@@ -75,6 +76,7 @@ public class CompanyService extends ClientService {
 
     /**
      * delete coupon method.
+     *
      * @param couponId - integer of the coupon id we want to delete.
      */
     public void deleteCoupon(int couponId) {
@@ -85,6 +87,7 @@ public class CompanyService extends ClientService {
 
     /**
      * get company coupons list method.
+     *
      * @return - list of all the company coupons.
      */
     public List<Coupon> getCompanyCoupons() {
@@ -93,6 +96,7 @@ public class CompanyService extends ClientService {
 
     /**
      * get company coupons from specific category
+     *
      * @param category - the category we want to find coupons of.
      * @return - filtered list of the company coupons from the category that was asked.
      */
@@ -104,6 +108,7 @@ public class CompanyService extends ClientService {
 
     /**
      * get company coupons from specific price range
+     *
      * @param maxPrice - the max price of the coupon that will be on the list.
      * @return - filtered list of company coupons up to the price of the asked max price.
      */
@@ -115,6 +120,7 @@ public class CompanyService extends ClientService {
 
     /**
      * get company instance.
+     *
      * @return - company instance of the current company.
      */
     public Company getCompanyDetails() {
@@ -123,13 +129,18 @@ public class CompanyService extends ClientService {
 
     /**
      * login method.
-     * @param email - company email.
+     *
+     * @param email    - company email.
      * @param password - company password.
      * @return - true or false.
      */
     @Override
     public boolean login(String email, String password) {
-        return companyRepo.existsByEmailAndPassword(email, password);
+        if (companyRepo.existsByEmailAndPassword(email, password)){
+            this.companyId = companyRepo.findCompanyByEmailAndPassword(email, password).getId();
+            return true;
+        }
+        return false;
     }
 
     @Override

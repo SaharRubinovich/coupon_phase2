@@ -5,12 +5,14 @@ import com.jb.coupon2.service.*;
 import com.jb.coupon2.util.TablePrinter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 
-//@Component
+@Component
 @RequiredArgsConstructor
+@Order(2)
 public class ServicesTest implements CommandLineRunner {
     private final AdminService adminService;
     private final CustomerService customerService;
@@ -27,8 +29,8 @@ public class ServicesTest implements CommandLineRunner {
                 .password("123456")
                 .build();
         adminService.addCompany(company);
-        //company.setPassword("1234");
-       // adminService.updateCompany(company);
+        company.setPassword("1234");
+        adminService.updateCompany(company);
         TablePrinter.print(adminService.getAllCompanies());
         Customer customer = Customer.builder()
                 .email("Customer2@Gmail.com")
@@ -37,8 +39,8 @@ public class ServicesTest implements CommandLineRunner {
                 .lastName("tomer")
                 .build();
         adminService.addCustomer(customer);
-       // customer.setLastName("tumer");
-       // adminService.updateCustomer(customer);
+        customer.setLastName("tumer");
+        adminService.updateCustomer(customer);
         TablePrinter.print(adminService.getAllCustomers());
         TablePrinter.print(adminService.getOneCustomer(customer.getId()));
 
