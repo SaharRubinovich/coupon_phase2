@@ -39,7 +39,7 @@ public class AdminController {
     @PutMapping(value = "/updateCompany")
     @ResponseStatus(code = HttpStatus.OK)
     public void updateCompany(@RequestHeader(name = "Authorization") String token, @RequestBody Company company)
-            throws UnauthorizedException, TokenException {
+            throws UnauthorizedException, TokenException, AdminServiceException {
         if (checkToken(token)) {
             adminService.updateCompany(company);
         } else {
@@ -61,7 +61,7 @@ public class AdminController {
     @GetMapping(value = "/getAllCompanies")
     public ResponseEntity<?> getAllCompanies(@RequestHeader(name = "Authorization") String token)
             throws UnauthorizedException, TokenException {
-        if (jwTutil.validateToken(token, adminService.getUSER_EMAIL())) {
+        if (checkToken(token)) {
             return new ResponseEntity<>(adminService.getAllCompanies(), HttpStatus.OK);
         } else {
             throw new UnauthorizedException();
@@ -92,7 +92,7 @@ public class AdminController {
     @PutMapping(value = "/updateCustomer")
     @ResponseStatus(code = HttpStatus.OK)
     public void updateCustomer(@RequestHeader(name = "Authorization") String token,@RequestBody Customer customer)
-            throws UnauthorizedException, TokenException {
+            throws UnauthorizedException, TokenException, AdminServiceException {
         if (checkToken(token)){
             adminService.updateCustomer(customer);
         } else {

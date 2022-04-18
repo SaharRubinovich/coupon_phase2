@@ -19,7 +19,7 @@ public abstract class ClientService {
     CouponRepo couponRepo;
     protected int id;
 
-    public abstract boolean login(String email, String password) throws LoginException;
+    public abstract boolean login(String email, String password);
 
     public abstract int getId();
 }
