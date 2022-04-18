@@ -18,6 +18,11 @@ public class CouponExpirationDailyJob {
     @Autowired
     private CouponRepo couponRepo;
 
+    /**
+     * daily coupon deletion.
+     * each day at 6:00AM jerusalem time will preform a deletion of any coupon that is expired date came before
+     * the day that the thread run in.
+     */
     @Async
     @Scheduled(cron = "0 0 6 * * ?", zone = "Asia/Jerusalem")
     public void dailyCouponDelete(){

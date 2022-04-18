@@ -23,6 +23,11 @@ public class JWTutil {
     private String secretKey = "lets+do+weird+secret+key+that+will+fit+256+bit";
     private Key decodedKey = new SecretKeySpec(Base64.getDecoder().decode(secretKey), this.signatureAlgorithm);
 
+    /**
+     * generate token method
+     * @param userDetails - instance that has the user relevant info to send in a token
+     * @return - String of token with the Bearer start
+     */
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("userId", userDetails.getId());
@@ -30,6 +35,12 @@ public class JWTutil {
         return "Bearer " + createToken(claims, userDetails.getUserEmail());
     }
 
+    /**
+     * create token method
+     * @param claims - map with the relevant info we want to put in the token.
+     * @param userEmail - the subject of the token.
+     * @return - string of finalized token.
+     */
     private String createToken(Map<String, Object> claims, String userEmail) {
         Instant instant = Instant.now();
         return Jwts.builder()
@@ -46,21 +57,45 @@ public class JWTutil {
         return jwtParser.parseClaimsJws(token).getBody();
     }
 
+    /**
+     * get the signature method
+     * @param token - the token we want to get the signature of.
+     * @return - string of token signature.
+     * @throws ExpiredJwtException - if the token is expired will throw exception
+     * @throws MalformedJwtException - if the token is not right(have 2 . and etc) will reject and throw excrption.
+     */
     private String extractSignature(String token) throws ExpiredJwtException, MalformedJwtException {
         JwtParser jwtParser = Jwts.parserBuilder().setSigningKey(decodedKey).build();
         return jwtParser.parseClaimsJws(token.replace("Bearer ", "")).getSignature();
     }
 
+    /**
+     * get subject method
+     * @param token - the token we want the subject of.
+     * @return - String of the token subject.
+     */
     public String extractSubject(String token) {
         return extractAllClaims(token.replace("Bearer ", "")).getSubject();
     }
 
+    /**
+     * check if token expired
+     * @param token - the token we want to check if still active.
+     * @return - true if the token expired and false otherwise.
+     */
     private boolean isTokenExpired(String token) {
         Claims claims = extractAllClaims(token);
         return claims.isEmpty();
-
     }
 
+    /**
+     * validate the token method
+     * @param token - the token we want to check
+     * @param email - the email of the user we want to verify if the token matches.
+     * @return - true if the token matches the email.
+     * @throws TokenException - if the token either doesn't match the email or is expired will throw custom exception
+     * informing of validation error.
+     */
     public boolean validateToken(String token, String email) throws TokenException {
         token = token.replace("Bearer ", "");
         String userEmail = extractSubject(token);
