@@ -11,5 +11,5 @@ public class UserDetails {
     private int id;
     private String userEmail;
     private String userPass;
-    private UserType userType;
+    private String userType;
 }

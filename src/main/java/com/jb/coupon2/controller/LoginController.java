@@ -29,7 +29,7 @@ public class LoginController {
         Optional<ClientService> user = Optional.ofNullable(loginManager.login(userEmail, userPass, userType));
         if (user.isPresent()){
             ClientService clientService = user.get();
-            UserDetails userDetails = new UserDetails(clientService.getId(), userEmail,userPass,userType);
+            UserDetails userDetails = new UserDetails(clientService.getId(), userEmail,userPass,String.valueOf(userType));
             return new ResponseEntity<>(jwtUtil.generateToken(userDetails), HttpStatus.OK);
         } else {
             throw new LoginException();

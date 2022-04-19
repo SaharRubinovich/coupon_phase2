@@ -58,6 +58,20 @@ public class JWTutil {
     }
 
     /**
+     * update the user token while logged in
+     * @param token - get current used token
+     * @return - new token after extracting the info from the last one
+     */
+    public String updateToken(String token){
+        Claims claims = extractAllClaims(token.replace("Bearer ",""));
+        UserDetails userDetails = new UserDetails();
+        userDetails.setId((Integer) claims.get("userId"));
+        userDetails.setUserType((String) claims.get("userType"));
+        userDetails.setUserEmail(claims.getSubject());
+        return generateToken(userDetails);
+    }
+
+    /**
      * get the signature method
      * @param token - the token we want to get the signature of.
      * @return - string of token signature.
@@ -119,7 +133,8 @@ public class JWTutil {
         /*
         AdminService adminService = new AdminService();
         UserDetails userDetails = new UserDetails(
-                adminService.getId(), adminService.getUSER_EMAIL(), adminService.getUSER_EMAIL(), UserType.ADMIN);
+                adminService.getId(), adminService.getUSER_EMAIL(), adminService.getUSER_PASS(),
+                String.valueOf(UserType.ADMIN));
         JWTutil jwTutil = new JWTutil();
         String token = jwTutil.generateToken(userDetails);
         System.out.println(token);
@@ -128,6 +143,10 @@ public class JWTutil {
         } catch (TokenException e) {
             System.out.println(e.getMessage());
         }
+
+        String newToken = jwTutil.updateToken(token);
+        System.out.println(newToken);
+        System.out.println(jwTutil.extractSubject(newToken));
 
          */
     }
