@@ -12,11 +12,11 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public abstract class ClientService {
     @Autowired
-    CompanyRepo companyRepo;
+    protected CompanyRepo companyRepo;
     @Autowired
-    CustomerRepo customerRepo;
+    protected CustomerRepo customerRepo;
     @Autowired
-    CouponRepo couponRepo;
+    protected CouponRepo couponRepo;
     protected int id;
 
     public abstract boolean login(String email, String password);
