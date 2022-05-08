@@ -2,8 +2,6 @@ package com.jb.coupon2.controller;
 
 import com.jb.coupon2.beans.Company;
 import com.jb.coupon2.beans.Customer;
-import com.jb.coupon2.beans.UserDetails;
-import com.jb.coupon2.beans.UserType;
 import com.jb.coupon2.exception.AdminServiceException;
 import com.jb.coupon2.exception.TokenException;
 import com.jb.coupon2.exception.UnauthorizedException;
@@ -18,11 +16,11 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping(value = "admin")
 public class AdminController {
-    private final AdminService adminService;
-    private final JWTutil jwTutil;
+    private final AdminService ADMIN_SERVICE;
+    private final JWTutil JWT;
 
     private boolean checkToken(String token) throws TokenException {
-        return jwTutil.validateToken(token.replace("Bearer ",""), adminService.getUSER_EMAIL());
+        return JWT.validateToken(token.replace("Bearer ",""), ADMIN_SERVICE.getUSER_EMAIL());
     }
 
     @PostMapping(value = "/addCompany")
@@ -30,7 +28,7 @@ public class AdminController {
     public void addCompany(@RequestHeader(name = "Authorization") String token, @RequestBody Company company)
             throws AdminServiceException, UnauthorizedException, TokenException {
         if (checkToken(token)) {
-            adminService.addCompany(company);
+            ADMIN_SERVICE.addCompany(company);
         } else {
             throw new UnauthorizedException();
         }
@@ -41,7 +39,7 @@ public class AdminController {
     public void updateCompany(@RequestHeader(name = "Authorization") String token, @RequestBody Company company)
             throws UnauthorizedException, TokenException, AdminServiceException {
         if (checkToken(token)) {
-            adminService.updateCompany(company);
+            ADMIN_SERVICE.updateCompany(company);
         } else {
             throw new UnauthorizedException();
         }
@@ -52,7 +50,7 @@ public class AdminController {
     public void deleteCompany(@RequestHeader(name = "Authorization") String token, @RequestParam int companyId)
             throws UnauthorizedException, TokenException {
         if (checkToken(token)) {
-            adminService.deleteCompany(companyId);
+            ADMIN_SERVICE.deleteCompany(companyId);
         } else {
             throw new UnauthorizedException();
         }
@@ -62,7 +60,7 @@ public class AdminController {
     public ResponseEntity<?> getAllCompanies(@RequestHeader(name = "Authorization") String token)
             throws UnauthorizedException, TokenException {
         if (checkToken(token)) {
-            return new ResponseEntity<>(adminService.getAllCompanies(), HttpStatus.OK);
+            return new ResponseEntity<>(ADMIN_SERVICE.getAllCompanies(), HttpStatus.OK);
         } else {
             throw new UnauthorizedException();
         }
@@ -72,7 +70,7 @@ public class AdminController {
     public ResponseEntity<?> getOneCompany(@RequestHeader(name = "Authorization") String token, @RequestParam int companyId)
             throws AdminServiceException, UnauthorizedException, TokenException {
         if (checkToken(token)) {
-            return new ResponseEntity<>(adminService.getOneCompany(companyId), HttpStatus.OK);
+            return new ResponseEntity<>(ADMIN_SERVICE.getOneCompany(companyId), HttpStatus.OK);
         } else {
             throw new UnauthorizedException();
         }
@@ -83,7 +81,7 @@ public class AdminController {
     public void addCustomer(@RequestHeader(name = "Authorization") String token, @RequestBody Customer customer)
             throws AdminServiceException, UnauthorizedException, TokenException {
         if (checkToken(token)){
-            adminService.addCustomer(customer);
+            ADMIN_SERVICE.addCustomer(customer);
         } else {
             throw new UnauthorizedException();
         }
@@ -94,7 +92,7 @@ public class AdminController {
     public void updateCustomer(@RequestHeader(name = "Authorization") String token,@RequestBody Customer customer)
             throws UnauthorizedException, TokenException, AdminServiceException {
         if (checkToken(token)){
-            adminService.updateCustomer(customer);
+            ADMIN_SERVICE.updateCustomer(customer);
         } else {
             throw new UnauthorizedException();
         }
@@ -105,7 +103,7 @@ public class AdminController {
     public void deleteCustomer(@RequestHeader(name = "Authorization") String token,@RequestParam int customerId)
             throws UnauthorizedException, TokenException {
         if (checkToken(token)){
-            adminService.deleteCustomer(customerId);
+            ADMIN_SERVICE.deleteCustomer(customerId);
         } else {
             throw new UnauthorizedException();
         }
@@ -115,7 +113,7 @@ public class AdminController {
     public ResponseEntity<?> getAllCustomers(@RequestHeader(name = "Authorization") String token)
             throws UnauthorizedException, TokenException {
         if (checkToken(token)){
-            return new ResponseEntity<>(adminService.getAllCustomers(),HttpStatus.OK);
+            return new ResponseEntity<>(ADMIN_SERVICE.getAllCustomers(),HttpStatus.OK);
         }else {
             throw new UnauthorizedException();
         }
@@ -126,7 +124,7 @@ public class AdminController {
             @RequestHeader(name = "Authorization") String token,@RequestParam int customerId)
             throws UnauthorizedException, AdminServiceException, TokenException {
         if (checkToken(token)){
-            return new ResponseEntity<>(adminService.getOneCustomer(customerId),HttpStatus.OK);
+            return new ResponseEntity<>(ADMIN_SERVICE.getOneCustomer(customerId),HttpStatus.OK);
         }else {
             throw new UnauthorizedException();
         }
