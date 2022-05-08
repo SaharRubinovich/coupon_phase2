@@ -111,7 +111,6 @@ public class JWTutil {
      * informing of validation error.
      */
     public boolean validateToken(String token, String email) throws TokenException {
-        token = token.replace("Bearer ", "");
         String userEmail = extractSubject(token);
         if (userEmail.equals(email) && !isTokenExpired(token)) {
             return true;

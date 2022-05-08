@@ -19,10 +19,10 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "admin")
 public class AdminController {
     private final AdminService adminService;
-    private JWTutil jwTutil;
+    private final JWTutil jwTutil;
 
     private boolean checkToken(String token) throws TokenException {
-        return jwTutil.validateToken(token, adminService.getUSER_EMAIL());
+        return jwTutil.validateToken(token.replace("Bearer ",""), adminService.getUSER_EMAIL());
     }
 
     @PostMapping(value = "/addCompany")
