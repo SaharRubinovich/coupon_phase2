@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 
-//@Component
+@Component
 @RequiredArgsConstructor
 @Order(2)
 public class ServicesTest implements CommandLineRunner {
@@ -21,7 +21,7 @@ public class ServicesTest implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        ClientService clientService = loginManager.login("admin@admin.com","admin",UserType.ADMIN);
+        ClientService clientService = loginManager.login("admin@admin.com","admin",UserType.ADMIN.toString());
         System.out.println(clientService.getClass());
         Company company = Company.builder()
                 .email("company@gamil.com")
@@ -45,7 +45,7 @@ public class ServicesTest implements CommandLineRunner {
         TablePrinter.print(adminService.getOneCustomer(customer.getId()));
 
 
-        clientService = loginManager.login(company.getEmail(), company.getPassword(), UserType.COMPANY);
+        clientService = loginManager.login(company.getEmail(), company.getPassword(), UserType.COMPANY.toString());
         System.out.println(clientService.getClass());
         Coupon coupon = Coupon.builder()
                 .category(Category.GAMING)
@@ -67,7 +67,7 @@ public class ServicesTest implements CommandLineRunner {
         TablePrinter.print(companyService.getCompanyDetails());
 
 
-        clientService = loginManager.login(customer.getEmail(), customer.getPassword(), UserType.CUSTOMER);
+        clientService = loginManager.login(customer.getEmail(), customer.getPassword(), UserType.CUSTOMER.toString());
         System.out.println(clientService.getClass());
         customerService.setCustomerId(customer.getId());
         customerService.purchaseCoupon(coupon);

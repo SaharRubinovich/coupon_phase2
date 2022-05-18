@@ -13,14 +13,14 @@ public class LoginManager {
     private final CustomerService customerService;
 
 
-    public ClientService login(String email, String password, UserType userType) throws LoginException {
+    public ClientService login(String email, String password, String userType) throws LoginException {
         ClientService clientService = null;
 
-        if (userType.equals(UserType.ADMIN) && adminService.login(email, password)) {
+        if (userType.equals(UserType.ADMIN.toString()) && adminService.login(email, password)) {
             return clientService = adminService;
-        } else if (companyService.login(email, password) && userType.equals(UserType.COMPANY)) {
+        } else if (companyService.login(email, password) && userType.equals(UserType.COMPANY.toString())) {
             return clientService = companyService;
-        } else if (customerService.login(email, password) && userType.equals(UserType.CUSTOMER)) {
+        } else if (customerService.login(email, password) && userType.equals(UserType.CUSTOMER.toString())) {
             return clientService = customerService;
         } else {
             throw new LoginException("Email or Password incorrect, or user doesn't exist.");

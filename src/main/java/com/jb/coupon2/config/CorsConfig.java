@@ -18,7 +18,7 @@ public class CorsConfig {
         //allow to get credentials in cors
         config.setAllowCredentials(true);
         //allow to get from any ip/domain
-        config.addAllowedOrigin("*");
+        config.addAllowedOriginPattern("*");
         //allow to get any header
         config.addAllowedHeader("*");
         //alow to get methods
