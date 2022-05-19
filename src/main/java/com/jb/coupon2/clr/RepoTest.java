@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 import java.util.List;
 
-@Component
+//@Component
 @Order(1)
 public class RepoTest implements CommandLineRunner {
     @Autowired

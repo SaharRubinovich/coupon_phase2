@@ -7,6 +7,7 @@ import com.jb.coupon2.exception.LoginException;
 import com.jb.coupon2.exception.PurchaseException;
 import com.jb.coupon2.repository.CustomerRepo;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
 public class CustomerService extends ClientService {
     private int customerId;
 
@@ -32,6 +34,7 @@ public class CustomerService extends ClientService {
     public CustomerService(String email, String password) {
         this.customerId = customerRepo.findCustomerByEmailAndPassword(email, password).getId();
     }
+
 
     /**
      * purchase coupon method.

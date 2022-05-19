@@ -1,5 +1,6 @@
 package com.jb.coupon2.beans;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.jb.coupon2.exception.UnauthorizedException;
 import lombok.*;
 
@@ -13,6 +14,7 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer"})
 public class Coupon {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -5,6 +5,7 @@ import com.jb.coupon2.beans.Company;
 import com.jb.coupon2.beans.Coupon;
 import com.jb.coupon2.exception.CompanyServiceException;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
 public class CompanyService extends ClientService {
     private int companyId;
 

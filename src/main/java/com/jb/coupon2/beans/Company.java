@@ -1,6 +1,8 @@
 package com.jb.coupon2.beans;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.jb.coupon2.exception.UnauthorizedException;
+import com.jb.coupon2.security.JWTutil;
 import lombok.*;
 
 import javax.persistence.*;
@@ -13,6 +15,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer"})
 public class Company {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,6 +27,9 @@ public class Company {
     @JoinColumn(name = "company_id")
     @Singular
     private List<Coupon> coupons = new ArrayList<>();
+    @OneToOne(cascade = CascadeType.ALL , orphanRemoval = true)
+    @JoinColumn(name = "token_id", referencedColumnName = "id")
+    private TokenManager token;
 
     public void setId(int id) throws UnauthorizedException {
         throw new UnauthorizedException();

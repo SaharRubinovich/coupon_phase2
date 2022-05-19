@@ -18,39 +18,49 @@ import org.springframework.web.bind.annotation.*;
 public class AdminController {
     private final AdminService ADMIN_SERVICE;
     private final JWTutil JWT;
+    private String newToken;
 
     private boolean checkToken(String token) throws TokenException {
         return JWT.validateToken(token.replace("Bearer ",""), ADMIN_SERVICE.getUSER_EMAIL());
     }
 
     @PostMapping(value = "/addCompany")
-    @ResponseStatus(code = HttpStatus.OK)
-    public void addCompany(@RequestHeader(name = "Authorization") String token, @RequestBody Company company)
+    public ResponseEntity<?> addCompany(@RequestHeader(name = "Authorization") String token, @RequestBody Company company)
             throws AdminServiceException, UnauthorizedException, TokenException {
         if (checkToken(token)) {
             ADMIN_SERVICE.addCompany(company);
+            newToken = JWT.checkUser(token);
+            return ResponseEntity.ok()
+                    .header("Authorization", newToken)
+                    .body(null);
         } else {
             throw new UnauthorizedException();
         }
     }
 
     @PutMapping(value = "/updateCompany")
-    @ResponseStatus(code = HttpStatus.OK)
-    public void updateCompany(@RequestHeader(name = "Authorization") String token, @RequestBody Company company)
+    public ResponseEntity<?> updateCompany(@RequestHeader(name = "Authorization") String token, @RequestBody Company company)
             throws UnauthorizedException, TokenException, AdminServiceException {
         if (checkToken(token)) {
             ADMIN_SERVICE.updateCompany(company);
+            newToken = JWT.checkUser(token);
+            return ResponseEntity.ok()
+                    .header("Authorization", newToken)
+                    .body(null);
         } else {
             throw new UnauthorizedException();
         }
     }
 
     @DeleteMapping(value = "/deleteCompany")
-    @ResponseStatus(code = HttpStatus.OK)
-    public void deleteCompany(@RequestHeader(name = "Authorization") String token, @RequestParam int companyId)
+    public ResponseEntity<?> deleteCompany(@RequestHeader(name = "Authorization") String token, @RequestParam int companyId)
             throws UnauthorizedException, TokenException {
         if (checkToken(token)) {
             ADMIN_SERVICE.deleteCompany(companyId);
+            newToken = JWT.checkUser(token);
+            return ResponseEntity.ok()
+                    .header("Authorization", newToken)
+                    .body(null);
         } else {
             throw new UnauthorizedException();
         }
@@ -60,7 +70,10 @@ public class AdminController {
     public ResponseEntity<?> getAllCompanies(@RequestHeader(name = "Authorization") String token)
             throws UnauthorizedException, TokenException {
         if (checkToken(token)) {
-            return new ResponseEntity<>(ADMIN_SERVICE.getAllCompanies(), HttpStatus.OK);
+            newToken = JWT.checkUser(token);
+            return ResponseEntity.ok()
+                    .header("Authorization", newToken)
+                    .body(ADMIN_SERVICE.getAllCompanies());
         } else {
             throw new UnauthorizedException();
         }
@@ -70,40 +83,52 @@ public class AdminController {
     public ResponseEntity<?> getOneCompany(@RequestHeader(name = "Authorization") String token, @RequestParam int companyId)
             throws AdminServiceException, UnauthorizedException, TokenException {
         if (checkToken(token)) {
-            return new ResponseEntity<>(ADMIN_SERVICE.getOneCompany(companyId), HttpStatus.OK);
+            newToken = JWT.checkUser(token);
+            return ResponseEntity.ok()
+                    .header("Authorization", newToken)
+                    .body(ADMIN_SERVICE.getOneCompany(companyId));
         } else {
             throw new UnauthorizedException();
         }
     }
 
     @PostMapping(value = "/addCustomer")
-    @ResponseStatus(code = HttpStatus.OK)
-    public void addCustomer(@RequestHeader(name = "Authorization") String token, @RequestBody Customer customer)
+    public ResponseEntity<?> addCustomer(@RequestHeader(name = "Authorization") String token, @RequestBody Customer customer)
             throws AdminServiceException, UnauthorizedException, TokenException {
         if (checkToken(token)){
             ADMIN_SERVICE.addCustomer(customer);
+            newToken = JWT.checkUser(token);
+            return ResponseEntity.ok()
+                    .header("Authorization", newToken)
+                    .body(null);
         } else {
             throw new UnauthorizedException();
         }
     }
 
     @PutMapping(value = "/updateCustomer")
-    @ResponseStatus(code = HttpStatus.OK)
-    public void updateCustomer(@RequestHeader(name = "Authorization") String token,@RequestBody Customer customer)
+    public ResponseEntity<?> updateCustomer(@RequestHeader(name = "Authorization") String token,@RequestBody Customer customer)
             throws UnauthorizedException, TokenException, AdminServiceException {
         if (checkToken(token)){
             ADMIN_SERVICE.updateCustomer(customer);
+            newToken = JWT.checkUser(token);
+            return ResponseEntity.ok()
+                    .header("Authorization", newToken)
+                    .body(null);
         } else {
             throw new UnauthorizedException();
         }
     }
 
     @DeleteMapping(value = "/deleteCustomer")
-    @ResponseStatus(code = HttpStatus.OK)
-    public void deleteCustomer(@RequestHeader(name = "Authorization") String token,@RequestParam int customerId)
+    public ResponseEntity<?> deleteCustomer(@RequestHeader(name = "Authorization") String token,@RequestParam int customerId)
             throws UnauthorizedException, TokenException {
         if (checkToken(token)){
             ADMIN_SERVICE.deleteCustomer(customerId);
+            newToken = JWT.checkUser(token);
+            return ResponseEntity.ok()
+                    .header("Authorization", newToken)
+                    .body(null);
         } else {
             throw new UnauthorizedException();
         }
@@ -113,7 +138,10 @@ public class AdminController {
     public ResponseEntity<?> getAllCustomers(@RequestHeader(name = "Authorization") String token)
             throws UnauthorizedException, TokenException {
         if (checkToken(token)){
-            return new ResponseEntity<>(ADMIN_SERVICE.getAllCustomers(),HttpStatus.OK);
+            newToken = JWT.checkUser(token);
+            return ResponseEntity.ok()
+                    .header("Authorization", newToken)
+                    .body(ADMIN_SERVICE.getAllCustomers());
         }else {
             throw new UnauthorizedException();
         }
@@ -124,7 +152,10 @@ public class AdminController {
             @RequestHeader(name = "Authorization") String token,@RequestParam int customerId)
             throws UnauthorizedException, AdminServiceException, TokenException {
         if (checkToken(token)){
-            return new ResponseEntity<>(ADMIN_SERVICE.getOneCustomer(customerId),HttpStatus.OK);
+            newToken = JWT.checkUser(token);
+            return ResponseEntity.ok()
+                    .header("Authorization", newToken)
+                    .body(ADMIN_SERVICE.getOneCustomer(customerId));
         }else {
             throw new UnauthorizedException();
         }

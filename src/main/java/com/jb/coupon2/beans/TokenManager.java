@@ -11,10 +11,16 @@ import javax.persistence.*;
 @Setter
 @Getter
 @Builder
+@ToString
 public class TokenManager {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String email;
+    @Column(nullable = false)
     private String token;
+
+    public TokenManager(UserDetails userDetails) {
+        JWTutil jwTutil = new JWTutil();
+        this.token = jwTutil.generateToken(userDetails);
+    }
 }
