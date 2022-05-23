@@ -27,9 +27,7 @@ public class Company {
     @JoinColumn(name = "company_id")
     @Singular
     private List<Coupon> coupons = new ArrayList<>();
-    @OneToOne(cascade = CascadeType.ALL , orphanRemoval = true)
-    @JoinColumn(name = "token_id", referencedColumnName = "id")
-    private TokenManager token;
+
 
     public void setId(int id) throws UnauthorizedException {
         throw new UnauthorizedException();

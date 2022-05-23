@@ -33,9 +33,7 @@ public class Customer {
     @Singular
     @ManyToMany
     List<Coupon> coupons = new ArrayList<>();
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "token_id")
-    private TokenManager token;
+
 
 
     public void setId(int id) throws UnauthorizedException {
