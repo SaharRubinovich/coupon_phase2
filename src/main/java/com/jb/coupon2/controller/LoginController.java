@@ -31,7 +31,7 @@ public class LoginController {
             UserDetails userData = new UserDetails(
                     clientService.getId(),userDetails.getUserEmail(),
                     userDetails.getUserPass(), userDetails.getUserType());
-            return new ResponseEntity<>(jwtUtil.generateToken(userDetails), HttpStatus.OK);
+            return ResponseEntity.ok().header(jwtUtil.generateToken(userDetails)).build();
         } else {
             throw new LoginException();
         }
