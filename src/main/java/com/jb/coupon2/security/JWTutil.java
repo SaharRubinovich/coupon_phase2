@@ -48,7 +48,7 @@ public class JWTutil {
                 .setClaims(claims)
                 .setSubject(userEmail)
                 .setIssuedAt(Date.from(instant))
-                .setExpiration(Date.from(instant.plus(5, ChronoUnit.MINUTES)))
+                .setExpiration(Date.from(instant.plus(30, ChronoUnit.MINUTES)))
                 .signWith(decodedKey)
                 .compact();
     }
