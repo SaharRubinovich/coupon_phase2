@@ -32,7 +32,7 @@ public class CompanyController {
             COMPANY_SERVICE.addCoupon(coupon);
             newToken = JWT.checkUser(token);
             return ResponseEntity.ok()
-                    .header("Authorization", newToken)
+                    .header("authorization", newToken)
                     .body(null);
         } else {
             throw new UnauthorizedException();
@@ -46,7 +46,7 @@ public class CompanyController {
             COMPANY_SERVICE.updateCoupon(coupon);
             newToken = JWT.checkUser(token);
             return ResponseEntity.ok()
-                    .header("Authorization", newToken)
+                    .header("authorization", newToken)
                     .body(null);
         } else {
             throw new UnauthorizedException();
@@ -60,7 +60,7 @@ public class CompanyController {
             COMPANY_SERVICE.deleteCoupon(id);
             newToken = JWT.checkUser(token);
             return ResponseEntity.ok()
-                    .header("Authorization", newToken)
+                    .header("authorization", newToken)
                     .body(null);
         } else {
             throw new UnauthorizedException();
@@ -73,7 +73,7 @@ public class CompanyController {
         if (checkToken(token)){
             newToken = JWT.checkUser(token);
             return ResponseEntity.ok()
-                    .header("Authorization", newToken)
+                    .header("authorization", newToken)
                     .body(COMPANY_SERVICE.getCompanyCoupons());
         } else {
             throw new UnauthorizedException();
@@ -86,7 +86,7 @@ public class CompanyController {
         if (checkToken(token)){
             newToken = JWT.checkUser(token);
             return ResponseEntity.ok()
-                    .header("Authorization", newToken)
+                    .header("authorization", newToken)
                     .body(COMPANY_SERVICE.getCompanyCoupons(category));
         } else {
             throw new UnauthorizedException();
@@ -99,7 +99,7 @@ public class CompanyController {
         if (checkToken(token)){
             newToken = JWT.checkUser(token);
             return ResponseEntity.ok()
-                    .header("Authorization", newToken)
+                    .header("authorization", newToken)
                     .body(COMPANY_SERVICE.getCompanyCoupons(maxPrice));
         }else {
             throw new UnauthorizedException();
@@ -112,7 +112,7 @@ public class CompanyController {
         if (checkToken(token)){
             newToken = JWT.checkUser(token);
             return ResponseEntity.ok()
-                    .header("Authorization", newToken)
+                    .header("authorization", newToken)
                     .body(COMPANY_SERVICE.getCompanyDetails());
         } else {
             throw new UnauthorizedException();

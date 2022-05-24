@@ -31,7 +31,7 @@ public class AdminController {
             ADMIN_SERVICE.addCompany(company);
             newToken = JWT.checkUser(token);
             return ResponseEntity.ok()
-                    .header("Authorization", newToken)
+                    .header("authorization", newToken)
                     .body(null);
         } else {
             throw new UnauthorizedException();
@@ -45,7 +45,7 @@ public class AdminController {
             ADMIN_SERVICE.updateCompany(company);
             newToken = JWT.checkUser(token);
             return ResponseEntity.ok()
-                    .header("Authorization", newToken)
+                    .header("authorization", newToken)
                     .body(null);
         } else {
             throw new UnauthorizedException();
@@ -59,7 +59,7 @@ public class AdminController {
             ADMIN_SERVICE.deleteCompany(companyId);
             newToken = JWT.checkUser(token);
             return ResponseEntity.ok()
-                    .header("Authorization", newToken)
+                    .header("authorization", newToken)
                     .body(null);
         } else {
             throw new UnauthorizedException();
@@ -72,7 +72,7 @@ public class AdminController {
         if (checkToken(token)) {
             newToken = JWT.checkUser(token);
             return ResponseEntity.ok()
-                    .header("Authorization", newToken)
+                    .header("authorization", newToken)
                     .body(ADMIN_SERVICE.getAllCompanies());
         } else {
             throw new UnauthorizedException();
@@ -85,7 +85,7 @@ public class AdminController {
         if (checkToken(token)) {
             newToken = JWT.checkUser(token);
             return ResponseEntity.ok()
-                    .header("Authorization", newToken)
+                    .header("authorization", newToken)
                     .body(ADMIN_SERVICE.getOneCompany(companyId));
         } else {
             throw new UnauthorizedException();
@@ -99,7 +99,7 @@ public class AdminController {
             ADMIN_SERVICE.addCustomer(customer);
             newToken = JWT.checkUser(token);
             return ResponseEntity.ok()
-                    .header("Authorization", newToken)
+                    .header("authorization", newToken)
                     .body(null);
         } else {
             throw new UnauthorizedException();
@@ -113,7 +113,7 @@ public class AdminController {
             ADMIN_SERVICE.updateCustomer(customer);
             newToken = JWT.checkUser(token);
             return ResponseEntity.ok()
-                    .header("Authorization", newToken)
+                    .header("authorization", newToken)
                     .body(null);
         } else {
             throw new UnauthorizedException();
@@ -127,7 +127,7 @@ public class AdminController {
             ADMIN_SERVICE.deleteCustomer(customerId);
             newToken = JWT.checkUser(token);
             return ResponseEntity.ok()
-                    .header("Authorization", newToken)
+                    .header("authorization", newToken)
                     .body(null);
         } else {
             throw new UnauthorizedException();
@@ -140,7 +140,7 @@ public class AdminController {
         if (checkToken(token)){
             newToken = JWT.checkUser(token);
             return ResponseEntity.ok()
-                    .header("Authorization", newToken)
+                    .header("authorization", newToken)
                     .body(ADMIN_SERVICE.getAllCustomers());
         }else {
             throw new UnauthorizedException();
@@ -154,7 +154,7 @@ public class AdminController {
         if (checkToken(token)){
             newToken = JWT.checkUser(token);
             return ResponseEntity.ok()
-                    .header("Authorization", newToken)
+                    .header("authorization", newToken)
                     .body(ADMIN_SERVICE.getOneCustomer(customerId));
         }else {
             throw new UnauthorizedException();

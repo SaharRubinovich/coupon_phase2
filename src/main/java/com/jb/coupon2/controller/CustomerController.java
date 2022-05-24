@@ -31,7 +31,7 @@ public class CustomerController {
             CUSTOMER_SERVICE.purchaseCoupon(coupon);
             newToken = JWT.checkUser(token);
             return ResponseEntity.ok()
-                    .header("Authorization", newToken)
+                    .header("authorization", newToken)
                     .body(null);
         } else {
             throw new UnauthorizedException();
@@ -44,7 +44,7 @@ public class CustomerController {
         if (checkToken(token)){
             newToken = JWT.checkUser(token);
             return ResponseEntity.ok()
-                    .header("Authorization", newToken)
+                    .header("authorization", newToken)
                     .body(CUSTOMER_SERVICE.getCustomerCoupon());
         } else {
             throw new UnauthorizedException();
@@ -57,7 +57,7 @@ public class CustomerController {
         if (checkToken(token)){
             newToken = JWT.checkUser(token);
             return ResponseEntity.ok()
-                    .header("Authorization", newToken)
+                    .header("authorization", newToken)
                     .body(CUSTOMER_SERVICE.getCustomerCoupon(category));
         } else {
             throw new UnauthorizedException();
@@ -70,7 +70,7 @@ public class CustomerController {
         if (checkToken(token)){
             newToken = JWT.checkUser(token);
             return ResponseEntity.ok()
-                    .header("Authorization", newToken)
+                    .header("authorization", newToken)
                     .body(CUSTOMER_SERVICE.getCustomerCoupon(price));
         }else {
             throw new UnauthorizedException();
