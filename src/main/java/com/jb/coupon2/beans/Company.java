@@ -1,5 +1,6 @@
 package com.jb.coupon2.beans;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.jb.coupon2.exception.UnauthorizedException;
 import com.jb.coupon2.security.JWTutil;
@@ -15,10 +16,11 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonIgnoreProperties({"hibernateLazyInitializer"})
+@JsonIgnoreProperties(value = {"hibernateLazyInitializer"},ignoreUnknown = true)
 public class Company {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private int id;
     private String name;
     private String email;
@@ -26,14 +28,7 @@ public class Company {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "company_id")
     @Singular
+    @JsonIgnore
     private List<Coupon> coupons = new ArrayList<>();
 
-
-    public void setId(int id) throws UnauthorizedException {
-        throw new UnauthorizedException();
-    }
-
-    public void setName(String name) throws UnauthorizedException {
-        throw new UnauthorizedException();
-    }
 }

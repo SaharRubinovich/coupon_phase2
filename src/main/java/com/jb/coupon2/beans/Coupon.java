@@ -32,7 +32,4 @@ public class Coupon {
     private double price;
     private String image;
 
-    public void setId(int id) throws UnauthorizedException {
-        throw new UnauthorizedException();
-    }
 }

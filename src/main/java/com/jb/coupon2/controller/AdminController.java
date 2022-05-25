@@ -33,6 +33,7 @@ public class AdminController {
             return ResponseEntity.ok()
                     .header("authorization", newToken)
                     .body(null);
+
         } else {
             throw new UnauthorizedException();
         }

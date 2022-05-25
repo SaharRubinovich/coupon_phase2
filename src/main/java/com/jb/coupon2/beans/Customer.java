@@ -35,8 +35,4 @@ public class Customer {
     List<Coupon> coupons = new ArrayList<>();
 
 
-
-    public void setId(int id) throws UnauthorizedException {
-        throw new UnauthorizedException();
-    }
 }
