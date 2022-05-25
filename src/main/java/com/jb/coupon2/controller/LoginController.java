@@ -7,6 +7,7 @@ import com.jb.coupon2.security.JWTutil;
 import com.jb.coupon2.service.ClientService;
 import com.jb.coupon2.service.LoginManager;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +32,9 @@ public class LoginController {
             UserDetails userData = new UserDetails(
                     clientService.getId(),userDetails.getUserEmail(),
                     userDetails.getUserPass(), userDetails.getUserType());
-            return ResponseEntity.ok().header("authorization", jwtUtil.generateToken(userDetails)).build();
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.set("authorization", jwtUtil.generateToken(userDetails));
+            return ResponseEntity.ok().headers(httpHeaders).build();
         } else {
             throw new LoginException();
         }
