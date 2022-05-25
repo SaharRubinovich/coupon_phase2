@@ -41,7 +41,7 @@ public class AdminService extends ClientService {
      * to change the company id or name.
      */
     public void updateCompany(Company company) throws AdminServiceException {
-        Optional<Company> dbCompany = companyRepo.findByEmail(company.getEmail());
+        Optional<Company> dbCompany = companyRepo.findByName(company.getName());
         if (dbCompany.isEmpty()){
             throw new AdminServiceException("Company doesn't exist in database.");
         } else  if (dbCompany.get().getId() != company.getId() || !dbCompany.get().getName().equals(company.getName())){
