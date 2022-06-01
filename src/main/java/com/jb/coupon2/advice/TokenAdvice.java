@@ -17,4 +17,10 @@ public class TokenAdvice {
     public ErrorDetail tokenError(Exception err){
         return new ErrorDetail("Token Error: ", err.getMessage());
     }
+
+    @ExceptionHandler(value = {IllegalArgumentException.class})
+    @ResponseStatus(code = HttpStatus.FORBIDDEN)
+    public ErrorDetail errorHandler(Exception err){
+        return new ErrorDetail("Token Error:", err.getMessage());
+    }
 }
