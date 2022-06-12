@@ -92,14 +92,14 @@ public class ServicesTest implements CommandLineRunner {
                 .build();
         companyService.setCompanyId(company.getId());
         companyService.addCoupon(coupon);
-        companyService.addCoupon(coupon2);
         companyService.setCompanyId(company2.getId());
+        companyService.addCoupon(coupon2);
         companyService.addCoupon(coupon3);
         TablePrinter.print(adminService.getOneCompany(company.getId()));
         coupon.setAmount(23);
         companyService.updateCoupon(coupon);
         TablePrinter.print(companyService.getCompanyCoupons());
-        TablePrinter.print(companyService.getCompanyCoupons(coupon.getCategory()));
+        TablePrinter.print(companyService.getCompanyCoupons(coupon3.getCategory()));
         TablePrinter.print(companyService.getCompanyDetails());
 
 

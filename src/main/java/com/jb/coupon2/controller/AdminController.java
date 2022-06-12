@@ -91,7 +91,7 @@ public class AdminController {
      */
     @DeleteMapping(value = "/deleteCompany")
     public ResponseEntity<?> deleteCompany(@RequestHeader(name = "Authorization") String token, @RequestParam int companyId)
-            throws UnauthorizedException, TokenException {
+            throws UnauthorizedException, TokenException, AdminServiceException {
         if (checkToken(token)) {
             ADMIN_SERVICE.deleteCompany(companyId);
             newToken = JWT.checkUser(token);
@@ -201,7 +201,7 @@ public class AdminController {
      */
     @DeleteMapping(value = "/deleteCustomer")
     public ResponseEntity<?> deleteCustomer(@RequestHeader(name = "Authorization") String token,@RequestParam int customerId)
-            throws UnauthorizedException, TokenException {
+            throws UnauthorizedException, TokenException, AdminServiceException {
         if (checkToken(token)){
             ADMIN_SERVICE.deleteCustomer(customerId);
             newToken = JWT.checkUser(token);

@@ -58,7 +58,10 @@ public class AdminService extends ClientService {
      * id from the db and lastly delete the company itself so the connection between all of them won't interfere the
      * deletion process.
      */
-    public void deleteCompany(int companyId) {
+    public void deleteCompany(int companyId) throws AdminServiceException {
+        if (companyRepo.findById(companyId).isEmpty()){
+            throw new AdminServiceException("Company doesn't exist.");
+        }
         couponRepo.deleteCouponPurchasedHistory(companyId);
         couponRepo.deleteCouponByCompanyId(companyId);
         companyRepo.deleteById(companyId);
@@ -124,7 +127,10 @@ public class AdminService extends ClientService {
      * delete customer from db method.
      * @param customerId - integer if the wanted customer to delete.
      */
-    public void deleteCustomer(int customerId) {
+    public void deleteCustomer(int customerId) throws AdminServiceException {
+        if (customerRepo.findById(customerId).isEmpty()){
+            throw new AdminServiceException("customer doesn't exist.");
+        }
         customerRepo.deleteById(customerId);
         System.out.println("Customer was deleted");
     }
