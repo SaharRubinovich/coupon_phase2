@@ -89,10 +89,11 @@ public class AdminController {
      * @throws UnauthorizedException - if the token doesn't have the right credentials
      * @throws TokenException - if the token is invalid for some reason
      */
-    @DeleteMapping(value = "/deleteCompany")
-    public ResponseEntity<?> deleteCompany(@RequestHeader(name = "Authorization") String token, @RequestParam int companyId)
+    @DeleteMapping(value = "/deleteCompany/{companyId}")
+    public ResponseEntity<?> deleteCompany(@RequestHeader(name = "Authorization") String token, @PathVariable int companyId)
             throws UnauthorizedException, TokenException, AdminServiceException {
         if (checkToken(token)) {
+           // System.out.println(companyId);
             ADMIN_SERVICE.deleteCompany(companyId);
             newToken = JWT.checkUser(token);
             return ResponseEntity.ok()
@@ -199,8 +200,8 @@ public class AdminController {
      * @throws UnauthorizedException - if the token doesn't have the right credentials
      * @throws TokenException - if the token is invalid for some reason
      */
-    @DeleteMapping(value = "/deleteCustomer")
-    public ResponseEntity<?> deleteCustomer(@RequestHeader(name = "Authorization") String token,@RequestParam int customerId)
+    @DeleteMapping(value = "/deleteCustomer/{customerId}")
+    public ResponseEntity<?> deleteCustomer(@RequestHeader(name = "Authorization") String token,@PathVariable int customerId)
             throws UnauthorizedException, TokenException, AdminServiceException {
         if (checkToken(token)){
             ADMIN_SERVICE.deleteCustomer(customerId);

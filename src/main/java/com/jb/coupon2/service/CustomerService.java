@@ -114,6 +114,7 @@ public class CustomerService extends ClientService {
     public boolean login(String email, String password) {
         if (customerRepo.existsCustomerByEmailAndPassword(email, password)) {
             this.customerId = customerRepo.findCustomerByEmailAndPassword(email, password).getId();
+            System.out.println("Customer logged in!");
             return true;
         }
         return false;

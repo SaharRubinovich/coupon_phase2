@@ -24,10 +24,9 @@ public class Company {
     private String name;
     private String email;
     private String password;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "company_id")
     @Singular
-    @JsonIgnore
     private List<Coupon> coupons = new ArrayList<>();
 
 }

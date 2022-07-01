@@ -82,7 +82,7 @@ public class CompanyService extends ClientService {
      * @param couponId - integer of the coupon id we want to delete.
      */
     public void deleteCoupon(int couponId) {
-        couponRepo.deleteCouponPurchasedHistory(this.companyId);
+        couponRepo.deleteCouponPurchasedHistory(couponId);
         couponRepo.deleteById(couponId);
         System.out.println("Coupon was deleted.");
     }

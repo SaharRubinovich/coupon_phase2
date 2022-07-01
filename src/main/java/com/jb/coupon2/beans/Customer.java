@@ -32,8 +32,7 @@ public class Customer {
     private String password;
     @JoinTable(name = "customers_vs_coupons")
     @Singular
-    @ManyToMany
-    @JsonIgnore
+    @ManyToMany(cascade = CascadeType.ALL)
     List<Coupon> coupons = new ArrayList<>();
 
 
