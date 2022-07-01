@@ -17,12 +17,12 @@ public interface CouponRepo extends JpaRepository<Coupon,Integer> {
     @Query(value = "SELECT COUNT(*) as counter FROM coupons_2.coupons \n" +
             "WHERE company_id= :company_Id and title= :title", nativeQuery = true)
     int checkIfCompanyHasSimilarCoupon(int company_Id, String title);
-    @Transactional
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
     @Modifying
     @Query(value = "DELETE FROM coupons_2.customers_vs_coupons " +
             "WHERE coupons_id= :coupon_Id", nativeQuery = true)
     void deleteCouponPurchasedHistory(int coupon_Id);
-    @Transactional
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
     @Modifying
     void deleteCouponByCompanyId(int company_Id);
     @Query(value = "SELECT * FROM coupons_2.customers_vs_coupons " +

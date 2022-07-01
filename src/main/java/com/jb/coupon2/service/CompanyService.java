@@ -5,6 +5,7 @@ import com.jb.coupon2.beans.Company;
 import com.jb.coupon2.beans.Coupon;
 import com.jb.coupon2.exception.CompanyServiceException;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
 public class CompanyService extends ClientService {
     private int companyId;
 
@@ -80,7 +82,7 @@ public class CompanyService extends ClientService {
      * @param couponId - integer of the coupon id we want to delete.
      */
     public void deleteCoupon(int couponId) {
-        couponRepo.deleteCouponPurchasedHistory(this.companyId);
+        couponRepo.deleteCouponPurchasedHistory(couponId);
         couponRepo.deleteById(couponId);
         System.out.println("Coupon was deleted.");
     }

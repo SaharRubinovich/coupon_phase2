@@ -5,6 +5,7 @@ import com.jb.coupon2.beans.Customer;
 import com.jb.coupon2.exception.AdminServiceException;
 import com.jb.coupon2.exception.LoginException;
 import lombok.Getter;
+import org.hibernate.StaleStateException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,10 +19,11 @@ public class AdminService extends ClientService {
     private final int ID = 0;
 
     /**
-     *add company to db method
+     * add company to db method
+     *
      * @param company - receive company instance to add into the db.
      * @throws AdminServiceException - if the email and name of the company we want to add
-     * already exist within the db, throw custom exception to inform the user.
+     *                               already exist within the db, throw custom exception to inform the user.
      */
     public void addCompany(Company company) throws AdminServiceException {
         Optional<Company> checkName = companyRepo.findByName(company.getName());
@@ -36,15 +38,16 @@ public class AdminService extends ClientService {
 
     /**
      * update company method
+     *
      * @param company - company instance
      * @throws AdminServiceException - if the company isn't found in the db or there was an ateempt
-     * to change the company id or name.
+     *                               to change the company id or name.
      */
     public void updateCompany(Company company) throws AdminServiceException {
         Optional<Company> dbCompany = companyRepo.findById(company.getId());
-        if (dbCompany.isEmpty()){
+        if (dbCompany.isEmpty()) {
             throw new AdminServiceException("Company doesn't exist in database.");
-        } else  if (dbCompany.get().getId() != company.getId() || !dbCompany.get().getName().equals(company.getName())){
+        } else if (dbCompany.get().getId() != company.getId() || !dbCompany.get().getName().equals(company.getName())) {
             throw new AdminServiceException("Cannot change company Id and name.");
         }
         companyRepo.saveAndFlush(company);
@@ -52,21 +55,29 @@ public class AdminService extends ClientService {
 
     /**
      * delete company from db method
+     *
      * @param companyId - integer of company id
-     * uses repo to delete safely company instance from the db.
-     * first delete the history of the company coupon purchases, then delete all the coupons that contains the company
-     * id from the db and lastly delete the company itself so the connection between all of them won't interfere the
-     * deletion process.
+     *                  uses repo to delete safely company instance from the db.
+     *                  first delete the history of the company coupon purchases, then delete all the coupons that contains the company
+     *                  id from the db and lastly delete the company itself so the connection between all of them won't interfere the
+     *                  deletion process.
      */
-    public void deleteCompany(int companyId) {
-        couponRepo.deleteCouponPurchasedHistory(companyId);
-        couponRepo.deleteCouponByCompanyId(companyId);
-        companyRepo.deleteById(companyId);
-        System.out.println("Company was deleted.");
+    public void deleteCompany(int companyId) throws AdminServiceException {
+        if (companyRepo.findById(companyId).isPresent()) {
+            // System.out.println(companyId);
+            companyRepo.deleteById(companyId);
+            System.out.println("Company was deleted.");
+        } else {
+            throw new AdminServiceException("Company doesn't exist.");
+        }
+        //couponRepo.deleteCouponPurchasedHistory(companyId);
+        //couponRepo.deleteCouponByCompanyId(companyId);
+
     }
 
     /**
      * get list of all the companies in the db method
+     *
      * @return list of companies inside the db.
      */
     public List<Company> getAllCompanies() {
@@ -75,6 +86,7 @@ public class AdminService extends ClientService {
 
     /**
      * get 1 company instance method
+     *
      * @param companyId - integer of the wanted company id.
      * @return company instance if existed.
      * @throws AdminServiceException - if company wasn't found with the wanted id will inform the user on it.
@@ -90,9 +102,10 @@ public class AdminService extends ClientService {
 
     /**
      * add customer to db method
+     *
      * @param customer - customer instance.
      * @throws AdminServiceException - if customer with the same email already exist in the db will inform the user
-     * about it.
+     *                               about it.
      */
     public void addCustomer(Customer customer) throws AdminServiceException {
         if (!customerRepo.existsByEmail(customer.getEmail())) {
@@ -105,15 +118,16 @@ public class AdminService extends ClientService {
 
     /**
      * updateing customer method
+     *
      * @param customer - customer instance we want to use to update
      * @throws AdminServiceException - if the customer doesn't exist in the db or the new update trying to change its
-     * id in the db will trow exception to inform the user accordingly.
+     *                               id in the db will trow exception to inform the user accordingly.
      */
     public void updateCustomer(Customer customer) throws AdminServiceException {
-        if (!customerRepo.existsByEmail(customer.getEmail())){
+        if (!customerRepo.existsByEmail(customer.getEmail())) {
             throw new AdminServiceException("Customer was not found.");
         }
-        if (customerRepo.getById(customer.getId()).getId() != customer.getId()){
+        if (customerRepo.getById(customer.getId()).getId() != customer.getId()) {
             throw new AdminServiceException("Cannot update customer id.");
         }
         customerRepo.saveAndFlush(customer);
@@ -122,15 +136,20 @@ public class AdminService extends ClientService {
 
     /**
      * delete customer from db method.
+     *
      * @param customerId - integer if the wanted customer to delete.
      */
-    public void deleteCustomer(int customerId) {
+    public void deleteCustomer(int customerId) throws AdminServiceException {
+        if (customerRepo.findById(customerId).isEmpty()) {
+            throw new AdminServiceException("customer doesn't exist.");
+        }
         customerRepo.deleteById(customerId);
         System.out.println("Customer was deleted");
     }
 
     /**
      * get a list of all customer from db method.
+     *
      * @return list of customers.
      */
     public List<Customer> getAllCustomers() {
@@ -139,10 +158,11 @@ public class AdminService extends ClientService {
 
     /**
      * get customer instance from db.
+     *
      * @param customerId - integer of the wanted customer id.
      * @return - customer instance if found in the db.
      * @throws AdminServiceException - if customer wasn't found matching the wanted id will throw exception and inform
-     * the user.
+     *                               the user.
      */
     public Customer getOneCustomer(int customerId) throws AdminServiceException {
         Optional<Customer> customerOptional = customerRepo.findById(customerId);
@@ -155,12 +175,13 @@ public class AdminService extends ClientService {
 
     /**
      * login method
-     * @param email - the admin email.
+     *
+     * @param email    - the admin email.
      * @param password - the admin password
      * @return - true or false
      */
     @Override
-    public boolean login(String email, String password){
+    public boolean login(String email, String password) {
         if (email.equals(this.USER_EMAIL) && password.equals(this.USER_PASS)) {
             System.out.println("Logged in successfully.");
             return true;

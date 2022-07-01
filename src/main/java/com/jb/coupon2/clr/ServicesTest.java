@@ -75,7 +75,7 @@ public class ServicesTest implements CommandLineRunner {
         TablePrinter.print(customerService.getCustomerCoupon(100.0));
         TablePrinter.print(customerService.getCustomerCoupon(Category.GAMING));
 
-        //adminService.deleteCustomer(customer.getId());
-        //adminService.deleteCompany(company.getId());
+        adminService.deleteCustomer(customer.getId());
+        adminService.deleteCompany(company.getId());
     }
 }

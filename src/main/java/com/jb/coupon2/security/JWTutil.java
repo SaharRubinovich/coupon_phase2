@@ -6,6 +6,7 @@ import com.jb.coupon2.exception.TokenException;
 import com.jb.coupon2.service.AdminService;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.spec.SecretKeySpec;
@@ -47,10 +48,18 @@ public class JWTutil {
                 .setClaims(claims)
                 .setSubject(userEmail)
                 .setIssuedAt(Date.from(instant))
-                .setExpiration(Date.from(instant.plus(5, ChronoUnit.MINUTES)))
+                .setExpiration(Date.from(instant.plus(30, ChronoUnit.MINUTES)))
                 .signWith(decodedKey)
                 .compact();
     }
+    /*
+    private String refreshToken(String token){
+        token = token.replace("Bearer ","");
+        JwtParser jwtParser = Jwts.parserBuilder().setSigningKey(decodedKey).setClock();
+        return
+    }
+
+     */
 
     private Claims extractAllClaims(String token) throws ExpiredJwtException, MalformedJwtException {
         JwtParser jwtParser = Jwts.parserBuilder().setSigningKey(decodedKey).build();
@@ -117,6 +126,15 @@ public class JWTutil {
         } else {
             throw new TokenException("Error validating token");
         }
+    }
+
+    public String checkUser(String token) throws MalformedJwtException{
+        Claims claims = extractAllClaims(token.replace("Bearer ", ""));
+        UserDetails userDetails = new UserDetails();
+        userDetails.setUserEmail(claims.getSubject());
+        userDetails.setId((int)claims.get("userId"));
+        userDetails.setUserType((String) claims.get("userType"));
+        return generateToken(userDetails);
     }
 
     public static void main(String[] args) {
