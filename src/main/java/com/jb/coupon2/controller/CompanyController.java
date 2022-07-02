@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "company")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class CompanyController {
     private final CompanyService COMPANY_SERVICE;
     private final JWTutil JWT;

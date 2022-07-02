@@ -17,7 +17,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping(value = "/")
 @RequiredArgsConstructor
-@CrossOrigin
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class LoginController {
     private final LoginManager loginManager;
     private final JWTutil jwtUtil;

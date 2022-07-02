@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping(value = "customer")
 public class CustomerController {
     private final CustomerService CUSTOMER_SERVICE;
