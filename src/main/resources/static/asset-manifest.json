@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/static/css/main.562509ad.css",
+    "main.js": "/static/js/main.47bdd617.js",
+    "static/js/787.c2651d7e.chunk.js": "/static/js/787.c2651d7e.chunk.js",
+    "static/media/notFoundGif.gif": "/static/media/notFoundGif.c1a407df5e3db997cc8f.gif",
+    "static/media/coupon.png": "/static/media/coupon.16b5cc468e3b608e0d50.png",
+    "index.html": "/index.html",
+    "main.562509ad.css.map": "/static/css/main.562509ad.css.map",
+    "main.47bdd617.js.map": "/static/js/main.47bdd617.js.map",
+    "787.c2651d7e.chunk.js.map": "/static/js/787.c2651d7e.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.562509ad.css",
+    "static/js/main.47bdd617.js"
+  ]
+}
